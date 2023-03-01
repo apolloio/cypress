@@ -344,7 +344,7 @@ export class CdpAutomation {
         })
       case 'reset:browser:state':
         return Promise.all([
-          this.sendDebuggerCommandFn('Storage.clearDataForOrigin', { origin: '*', storageTypes: 'all' }),
+          this.sendDebuggerCommandFn('Storage.clearDataForOrigin', { origin: '*', storageTypes: 'appcache,cookies,file_systems,indexeddb,local_storage,shader_cache,websql,cache_storage,interest_groups,shared_storage' }),
           this.sendDebuggerCommandFn('Network.clearBrowserCache'),
         ])
       case 'reset:browser:tabs:for:next:test':
