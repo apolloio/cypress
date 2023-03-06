@@ -1,0 +1,50 @@
+name: Linux binary
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - v12.6.0-patched
+
+env:
+  NODE_ENV: production
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-linux-binary:
+    runs-on:
+      - self-hosted
+      - general
+      - high-resource
+
+    container: node:16.16.0
+
+    name: Build linux binary
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build v8 snapshot for production
+        run: yarn build v8-snapshot-prod
+        env:
+          V8_SNAPSHOT_FROM_SCRATCH: "1"
+
+      - name: Build binary
+        run: yarn binary-build
+
+      - name: Zip binary
+        run: yarn binary-zip
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: Linux binary
+          path: cypress.zip
