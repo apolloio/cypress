@@ -32,7 +32,7 @@ jobs:
         run: yarn
 
       - name: Build v8 snapshot for production
-        run: yarn build v8-snapshot-prod
+        run: yarn build-v8-snapshot-prod
         env:
           V8_SNAPSHOT_FROM_SCRATCH: "1"
 
