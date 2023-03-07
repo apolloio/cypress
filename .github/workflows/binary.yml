@@ -32,6 +32,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Build sources for production
+        run: yarn build
+
       - name: Build v8 snapshot for production
         run: yarn build-v8-snapshot-prod
         env:
