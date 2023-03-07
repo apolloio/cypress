@@ -1,4 +1,4 @@
-name: Linux binary
+name: Build binaries
 
 on:
   workflow_dispatch:
@@ -15,12 +15,7 @@ concurrency:
 
 jobs:
   build-linux-binary:
-    runs-on:
-      - self-hosted
-      - general
-      - high-resource
-
-    container: node:16.16.0
+    runs-on: ubuntu-latest
 
     name: Build linux binary
     steps:
@@ -29,8 +24,13 @@ jobs:
         with:
           ref: ${{ github.sha }}
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .node-version
+
       - name: Install dependencies
-        run: yarn
+        run: PATH="$PATH:$GITHUB_WORKSPACE/node_modules/.bin" yarn
 
       - name: Build v8 snapshot for production
         run: yarn build v8-snapshot-prod
