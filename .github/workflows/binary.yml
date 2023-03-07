@@ -16,6 +16,8 @@ concurrency:
 jobs:
   build-linux-binary:
     runs-on: ubuntu-latest
+    container:
+      image: node:16.16.0
 
     name: Build linux binary
     steps:
