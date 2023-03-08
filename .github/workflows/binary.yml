@@ -30,6 +30,9 @@ jobs:
           node-version-file: .node-version
           cache: yarn
 
+      - name: Install linux packages
+        run: apt-get install -y libgtkextra-dev libgconf2-dev libnss3 libasound2 libxtst-dev
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
