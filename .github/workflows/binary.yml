@@ -29,19 +29,22 @@ jobs:
           node-version-file: .node-version
           cache: yarn
 
+      - name: Install linux packages
+        run: apt-get update && apt-get install -y zip libatk-bridge2.0-0 libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
       - name: Build sources for production
         run: yarn build
 
-      - name: Build v8 snapshot for production
-        run: yarn build-v8-snapshot-prod
-        env:
-          V8_SNAPSHOT_FROM_SCRATCH: "1"
+      # - name: Build v8 snapshot for production
+      #   run: yarn build-v8-snapshot-prod
+      #   env:
+      #     V8_SNAPSHOT_FROM_SCRATCH: "1"
 
       - name: Build binary
-        run: yarn binary-build
+        run: DISABLE_SNAPSHOT_REQUIRE=1 yarn binary-build --version $(node ./scripts/get-next-version.js)
 
       - name: Zip binary
         run: yarn binary-zip
