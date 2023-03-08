@@ -41,7 +41,7 @@ jobs:
           V8_SNAPSHOT_FROM_SCRATCH: "1"
 
       - name: Build binary
-        run: yarn binary-build
+        run: yarn binary-build --version $(node ./scripts/get-next-version.js)
 
       - name: Zip binary
         run: yarn binary-zip
