@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - v12.6.0-patched
-      - umang/build
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
