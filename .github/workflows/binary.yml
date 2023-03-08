@@ -39,13 +39,13 @@ jobs:
       - name: Build sources for production
         run: yarn build
 
-      - name: Build v8 snapshot for production
-        run: yarn build-v8-snapshot-prod
-        env:
-          V8_SNAPSHOT_FROM_SCRATCH: "1"
+      # - name: Build v8 snapshot for production
+      #   run: yarn build-v8-snapshot-prod
+      #   env:
+      #     V8_SNAPSHOT_FROM_SCRATCH: "1"
 
       - name: Build binary
-        run: yarn binary-build --version $(node ./scripts/get-next-version.js)
+        run: DISABLE_SNAPSHOT_REQUIRE=1 yarn binary-build --version $(node ./scripts/get-next-version.js)
 
       - name: Zip binary
         run: yarn binary-zip
