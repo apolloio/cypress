@@ -197,9 +197,7 @@ const deploy = {
     .then(() => {
       console.log('building binary: platform %s version %s', options.platform, options.version)
 
-      return build.test().then(() => {
-        return build.buildCypressApp(options)
-      })
+      return build.buildCypressApp(options)
     })
   },
 

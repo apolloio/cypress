@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import os from 'os'
 import fs from 'fs-extra'
 import path from 'path'
@@ -73,13 +72,6 @@ async function checkMaxPathLength () {
 }
 
 // For debugging the flow without rebuilding each time
-
-export async function test () {
-  const electronVersion = electron.getElectronVersion()
-  const electronNodeVersion = await electron.getElectronNodeVersion()
-
-  console.log({ electronNodeVersion, electronVersion })
-}
 
 export async function buildCypressApp (options: BuildCypressAppOpts) {
   const { platform, version, skipSigning = false, keepBuild = false } = options
