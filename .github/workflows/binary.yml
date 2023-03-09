@@ -10,12 +10,18 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  VERSION: v12.6.0-patched
+
 jobs:
   build-linux-binary:
     runs-on: ubuntu-latest
     container:
       image: node:16.16.0
 
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     name: Build linux binary
     steps:
       - name: Checkout
@@ -54,3 +60,15 @@ jobs:
         with:
           name: Linux binary
           path: cypress.zip
+
+      - uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: "${{ secrets.WIP }}"
+          service_account: "${{ secrets.SA }}"
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: 'Upload binary'
+        run: |
+          gsutil cp -a public-read cypress.zip gs://${{ secrets.BUCKET }}/cypress/${{ env.VERSION }}/cypress.zip
